@@ -1,0 +1,179 @@
+{
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@next/next/recommended",
+    "plugin:@html-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "env": {
+        "node": true,
+        "es6": true,
+        "jest": true
+      },
+      "files": [
+        "**/*.test.js",
+        ".eslintrc.{js,cjs}",
+        "*.{html, htm}"
+      ],
+      "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+      }
+    }
+  ],
+  "settings": {
+    "next": {
+      "rootDir": "./src/**/*"
+    }
+  },
+  "plugins": [
+    "react-hooks",
+    "tailwindcss",
+    "react",
+    "eslint-plugin-prettier",
+    "check-file",
+    "@html-eslint"
+  ],
+  "rules": {
+    "react/jsx-key": [
+      "error",
+      {
+        "checkKeyMustBeforeSpread": true,
+        "warnOnDuplicates": true
+      }
+    ],
+    "react/jsx-no-duplicate-props": "error",
+    "react/hook-use-state": [
+      "error",
+      {
+        "allowDestructuredState": false
+      }
+    ],
+    "react/destructuring-assignment": [
+      "error",
+      "always",
+      {
+        "ignoreClassFields": true,
+        "destructureInSignature": "always"
+      }
+    ],
+    "react/jsx-boolean-value": [
+      "error",
+      "always",
+      {
+        "assumeUndefinedIsFalse": false
+      }
+    ],
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": false,
+        "html": false
+      }
+    ],
+    "react/boolean-prop-naming": [
+      "error",
+      {
+        "rule": "^(is|has)[A-Z]([A-Za-z]?)+"
+      }
+    ],
+    "react/jsx-handler-names": [
+      "error",
+      {
+        "eventHandlerPrefix": "handle",
+        "eventHandlerPropPrefix": "on",
+        "checkLocalVariables": true,
+        "checkInlineFunction": true
+      }
+    ],
+    "no-use-before-define": [
+      "error",
+      {
+        "variables": true,
+        "allowNamedExports": true,
+        "classes": true,
+        "functions": true
+      }
+    ],
+    "callback-return": [
+      "error",
+      [
+        "done",
+        "send.error",
+        "send.success"
+      ]
+    ],
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "src/app/**/*.jsx": "CAMEL_CASE",
+        "src/components/**/*.test.js": "CAMEL_CASE"
+      },
+      {
+        "ignoreMiddleExtensions": true
+      }
+    ],
+    "check-file/folder-match-with-fex": [
+      "error",
+      {
+        "*.test.{js}": "**/__test__/"
+      }
+    ],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "@next/next/no-html-link-for-pages": "off",
+    "no-alert": "error",
+    "no-console": "error",
+    "max-lines": [
+      "error",
+      {
+        "max": 1000,
+        "skipBlankLines": true,
+        "skipComments": true
+      }
+    ],
+    "react/react-in-jsx-scope": 0,
+    "react/prop-types": "error",
+    "no-unused-vars": "error",
+    "no-undef": "error",
+    "import/first": "error",
+    "no-shadow": "error",
+    "no-case-declarations": "error",
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true,
+          "ArrowFunctionExpression": true,
+          "FunctionExpression": true
+        }
+      }
+    ],
+    "prettier/prettier": "error",
+    "@html-eslint/require-title": "error",
+    "@html-eslint/require-meta-description": "error",
+    "@html-eslint/id-naming-convention": [
+      "error",
+      "regex",
+      {
+        "pattern": "snake_case"
+      }
+    ],
+    "@html-eslint/lowercase": "error",
+    "@html-eslint/quotes": [
+      "error",
+      "single"
+    ],
+    "func-name-matching": [
+      "error",
+      "always"
+    ]
+  }
+}
