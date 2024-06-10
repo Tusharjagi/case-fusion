@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import Navbar from "../components/Navbar";
 import Providers from "../components/Providers";
+import Footer from "../components/Footer";
+import { Toaster } from "../components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +26,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
           <div className="flex-1 flex flex-col h-full">
             <Providers>{children}</Providers>
           </div>
+          <Footer />
         </main>
+        <Toaster />
       </body>
     </html>
   );
