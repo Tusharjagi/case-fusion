@@ -15,11 +15,7 @@
         "es6": true,
         "jest": true
       },
-      "files": [
-        "**/*.test.js",
-        ".eslintrc.{js,cjs}",
-        "*.{html, htm}"
-      ],
+      "files": ["**/*.test.js", ".eslintrc.{js,cjs}", "*.{html, htm}"],
       "parserOptions": {
         "ecmaVersion": 8,
         "sourceType": "module"
@@ -31,15 +27,9 @@
       "rootDir": "./src/**/*"
     }
   },
-  "plugins": [
-    "react-hooks",
-    "tailwindcss",
-    "react",
-    "eslint-plugin-prettier",
-    "check-file",
-    "@html-eslint"
-  ],
+  "plugins": ["react-hooks", "tailwindcss", "react", "eslint-plugin-prettier", "check-file", "@html-eslint"],
   "rules": {
+    "@next/next/no-img-element": "off",
     "react/jsx-key": [
       "error",
       {
@@ -100,14 +90,7 @@
         "functions": true
       }
     ],
-    "callback-return": [
-      "error",
-      [
-        "done",
-        "send.error",
-        "send.success"
-      ]
-    ],
+    "callback-return": ["error", ["done", "send.error", "send.success"]],
     "check-file/filename-naming-convention": [
       "error",
       {
@@ -167,13 +150,7 @@
       }
     ],
     "@html-eslint/lowercase": "error",
-    "@html-eslint/quotes": [
-      "error",
-      "single"
-    ],
-    "func-name-matching": [
-      "error",
-      "always"
-    ]
+    "@html-eslint/quotes": ["error", "single"],
+    "func-name-matching": ["error", "always"]
   }
 }
