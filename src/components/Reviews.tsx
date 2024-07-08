@@ -1,10 +1,12 @@
 "use client";
 
 import { HTMLAttributes, useEffect, useRef, useState } from "react";
-import MaxWidthWrapper from "../components/MaxWidthWrapper";
+import Image from "next/image";
 import { useInView } from "framer-motion";
-import { cn } from "../lib/utils";
-import Phone from "./Phone";
+
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Phone from "@/components/Phone";
+import { cn } from "@/lib/utils";
 
 const PHONES = [
   "/testimonials/1.jpg",
@@ -75,7 +77,7 @@ interface ReviewProps extends HTMLAttributes<HTMLDivElement> {
   imgSrc: string;
 }
 
-function Review({ imgSrc, className, ...props }: ReviewProps) {
+function Review({ imgSrc, className, ...props }: Readonly<ReviewProps>) {
   const POSSIBLE_ANIMATION_DELAYS = ["0s", "0.1s", "0.2s", "0.3s", "0.4s", "0.5s"];
 
   const animationDelay = POSSIBLE_ANIMATION_DELAYS[Math.floor(Math.random() * POSSIBLE_ANIMATION_DELAYS.length)];
@@ -134,12 +136,14 @@ function ReviewGrid() {
 export function Reviews() {
   return (
     <MaxWidthWrapper className="relative max-w-5xl">
-      <img
+      <Image
         aria-hidden="true"
-        src="/public/what-people-are-buying.png"
-        className="absolute select-none hidden xl:block -left-32 top-1/3"
+        src="/what-people-are-buying.png"
+        className="absolute select-none hidden xl:block -left-[25%] top-1/3"
+        alt="what people buying"
+        height={200}
+        width={200}
       />
-
       <ReviewGrid />
     </MaxWidthWrapper>
   );
