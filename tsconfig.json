@@ -14,8 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "paths": {
-      "@/components/*": ["./src/*"],
-      "@/utils/*": ["./src/utils/*"]
+      "@/components/*": ["./src/components/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/db/*": ["./src/db/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/validators/*": ["./src/validators/*"]
     },
     "incremental": true,
     "plugins": [
