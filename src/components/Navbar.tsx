@@ -1,8 +1,9 @@
 import Link from "next/link";
-import MaxWidthWrapper from "./MaxWidthWrapper";
-import { buttonVariants } from "./ui/button";
 import { ArrowRight } from "lucide-react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { buttonVariants } from "@/components/ui/button";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -15,7 +16,7 @@ const Navbar = async () => {
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
           <Link href="/" className="flex z-40 font-semibold">
-            case<span className="text-green-600">cobra</span>
+            case<span className="text-green-600">fusion</span>
           </Link>
 
           <div className="h-full flex items-center space-x-4">
