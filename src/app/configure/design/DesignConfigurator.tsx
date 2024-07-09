@@ -1,35 +1,36 @@
 "use client";
 
-import HandleComponent from "../../../components/HandleComponent";
-import { AspectRatio } from "../../../components/ui/aspect-ratio";
-import { ScrollArea } from "../../../components/ui/scroll-area";
-import { cn, formatPrice } from "../../../lib/utils";
-import NextImage from "next/image";
-import { Rnd } from "react-rnd";
-import { RadioGroup } from "@headlessui/react";
 import { useRef, useState } from "react";
-import { COLORS, FINISHES, MATERIALS, MODELS } from "../../../validators/option-validator";
-import { Label } from "../../../components/ui/label";
+import { RadioGroup, Label as HeadLessLabel, Description, Radio } from "@headlessui/react";
+import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
+import { Rnd } from "react-rnd";
+import NextImage from "next/image";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+
+import HandleComponent from "@/components/HandleComponent";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn, formatPrice } from "@/lib/utils";
+import { COLORS, FINISHES, MATERIALS, MODELS } from "@/validators/option-validator";
+import { Label } from "@/components/ui/label";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../../components/ui/dropdown-menu";
-import { Button } from "../../../components/ui/button";
-import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
-import { BASE_PRICE } from "../../../config/products";
-import { useUploadThing } from "../../../lib/uploadthing";
-import { useToast } from "../../../components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { BASE_PRICE } from "@/config/products";
+import { useUploadThing } from "@/lib/uploadthing";
+import { useToast } from "@/components/ui/use-toast";
 import { saveConfig as _saveConfig, SaveConfigArgs } from "./actions";
-import { useRouter } from "next/navigation";
 
-interface DesignConfiguratorProps {
+type DesignConfiguratorProps = {
   configId: string;
   imageUrl: string;
   imageDimensions: { width: number; height: number };
-}
+};
 
 const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfiguratorProps) => {
   const { toast } = useToast();
@@ -217,14 +218,14 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                   <Label>Color: {options.color.label}</Label>
                   <div className="mt-3 flex items-center space-x-3">
                     {COLORS.map((color) => (
-                      <RadioGroup.Option
+                      <Radio
                         key={color.label}
                         value={color}
-                        className={({ active, checked }) =>
+                        className={({ focus, checked }) =>
                           cn(
                             "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 active:ring-0 focus:ring-0 active:outline-none focus:outline-none border-2 border-transparent",
                             {
-                              [`border-${color.tw}`]: active || checked,
+                              [`border-${color.tw}`]: focus || checked,
                             },
                           )
                         }
@@ -232,7 +233,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                         <span
                           className={cn(`bg-${color.tw}`, "h-8 w-8 rounded-full border border-black border-opacity-10")}
                         />
-                      </RadioGroup.Option>
+                      </Radio>
                     ))}
                   </div>
                 </RadioGroup>
@@ -284,39 +285,39 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                     <Label>{name.slice(0, 1).toUpperCase() + name.slice(1)}</Label>
                     <div className="mt-3 space-y-4">
                       {selectableOptions.map((option) => (
-                        <RadioGroup.Option
+                        <Radio
                           key={option.value}
                           value={option}
-                          className={({ active, checked }) =>
+                          className={({ focus, checked }) =>
                             cn(
                               "relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
                               {
-                                "border-primary": active || checked,
+                                "border-primary": focus || checked,
                               },
                             )
                           }
                         >
                           <span className="flex items-center">
                             <span className="flex flex-col text-sm">
-                              <RadioGroup.Label className="font-medium text-gray-900" as="span">
+                              <HeadLessLabel className="font-medium text-gray-900" as="span">
                                 {option.label}
-                              </RadioGroup.Label>
+                              </HeadLessLabel>
 
                               {option.description ? (
-                                <RadioGroup.Description as="span" className="text-gray-500">
+                                <Description as="span" className="text-gray-500">
                                   <span className="block sm:inline">{option.description}</span>
-                                </RadioGroup.Description>
+                                </Description>
                               ) : null}
                             </span>
                           </span>
 
-                          <RadioGroup.Description
+                          <Description
                             as="span"
                             className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right"
                           >
                             <span className="font-medium text-gray-900">{formatPrice(option.price / 100)}</span>
-                          </RadioGroup.Description>
-                        </RadioGroup.Option>
+                          </Description>
+                        </Radio>
                       ))}
                     </div>
                   </RadioGroup>
