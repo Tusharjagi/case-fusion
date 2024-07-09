@@ -1,10 +1,11 @@
 "use server";
 
-import { BASE_PRICE, PRODUCT_PRICES } from "../../../config/products";
-import { db } from "../../../db/index";
-import { stripe } from "../../../lib/stripe";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Order } from "@prisma/client";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
+import { db } from "@/db/index";
+import { stripe } from "@/lib/stripe";
 
 export const createCheckoutSession = async ({ configId }: { configId: string }) => {
   const configuration = await db.configuration.findUnique({

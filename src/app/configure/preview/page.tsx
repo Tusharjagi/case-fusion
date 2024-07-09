@@ -1,12 +1,13 @@
-import { db } from "../../../db/index";
 import { notFound } from "next/navigation";
+
+import { db } from "@/db/index";
 import DesignPreview from "./DesignPreview";
 
-interface PageProps {
+type PageProps = {
   searchParams: {
     [key: string]: string | string[] | undefined;
   };
-}
+};
 
 const Page = async ({ searchParams }: PageProps) => {
   const { id } = searchParams;
