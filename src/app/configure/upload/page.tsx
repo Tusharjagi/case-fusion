@@ -1,13 +1,14 @@
 "use client";
 
-import { Progress } from "../../../components/ui/progress";
-import { useToast } from "../../../components/ui/use-toast";
-import { useUploadThing } from "../../../lib/uploadthing";
-import { cn } from "../../../lib/utils";
-import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
+import { Image, Loader2, MousePointerSquareDashed } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { Progress } from "@/components/ui/progress";
+import { useToast } from "@/components/ui/use-toast";
+import { useUploadThing } from "@/lib/uploadthing";
+import { cn } from "@/lib/utils";
 
 const Page = () => {
   const { toast } = useToast();
@@ -46,6 +47,57 @@ const Page = () => {
 
   const [isPending, startTransition] = useTransition();
 
+  type RenderIconProps = {
+    isDragOver: boolean;
+    isUploading: boolean;
+    isPending: boolean;
+  };
+  const renderIcon = ({ isDragOver, isUploading, isPending }: RenderIconProps) => {
+    if (isDragOver) {
+      return <MousePointerSquareDashed className="h-6 w-6 text-zinc-500 mb-2" />;
+    } else if (isUploading || isPending) {
+      return <Loader2 className="animate-spin h-6 w-6 text-zinc-500 mb-2" />;
+    } else {
+      return <Image className="h-6 w-6 text-zinc-500 mb-2" />;
+    }
+  };
+
+  type UploadComponentProps = {
+    isDragOver: boolean;
+    isUploading: boolean;
+    isPending: boolean;
+    uploadProgress: number;
+  };
+  const renderMessage = ({ isUploading, isPending, isDragOver, uploadProgress }: UploadComponentProps) => {
+    switch (true) {
+      case isUploading:
+        return (
+          <div className="flex flex-col items-center">
+            <p>Uploading...</p>
+            <Progress value={uploadProgress} className="mt-2 w-40 h-2 bg-gray-300" />
+          </div>
+        );
+      case isPending:
+        return (
+          <div className="flex flex-col items-center">
+            <p>Redirecting, please wait...</p>
+          </div>
+        );
+      case isDragOver:
+        return (
+          <p>
+            <span className="font-semibold">Drop file</span> to upload
+          </p>
+        );
+      default:
+        return (
+          <p>
+            <span className="font-semibold">Click to upload</span> or drag and drop
+          </p>
+        );
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -70,32 +122,9 @@ const Page = () => {
           {({ getRootProps, getInputProps }) => (
             <div className="h-full w-full flex-1 flex flex-col items-center justify-center" {...getRootProps()}>
               <input {...getInputProps()} />
-              {isDragOver ? (
-                <MousePointerSquareDashed className="h-6 w-6 text-zinc-500 mb-2" />
-              ) : isUploading || isPending ? (
-                <Loader2 className="animate-spin h-6 w-6 text-zinc-500 mb-2" />
-              ) : (
-                <Image className="h-6 w-6 text-zinc-500 mb-2" />
-              )}
+              {renderIcon({ isDragOver, isUploading, isPending })}
               <div className="flex flex-col justify-center mb-2 text-sm text-zinc-700">
-                {isUploading ? (
-                  <div className="flex flex-col items-center">
-                    <p>Uploading...</p>
-                    <Progress value={uploadProgress} className="mt-2 w-40 h-2 bg-gray-300" />
-                  </div>
-                ) : isPending ? (
-                  <div className="flex flex-col items-center">
-                    <p>Redirecting, please wait...</p>
-                  </div>
-                ) : isDragOver ? (
-                  <p>
-                    <span className="font-semibold">Drop file</span> to upload
-                  </p>
-                ) : (
-                  <p>
-                    <span className="font-semibold">Click to upload</span> or drag and drop
-                  </p>
-                )}
+                {renderMessage({ isUploading, isPending, isDragOver, uploadProgress })}
               </div>
 
               {isPending ? null : <p className="text-xs text-zinc-500">PNG, JPG, JPEG</p>}
