@@ -18,7 +18,8 @@
       "@/config/*": ["./src/config/*"],
       "@/db/*": ["./src/db/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/validators/*": ["./src/validators/*"]
+      "@/validators/*": ["./src/validators/*"],
+      "@/styles/*": ["./src/styles/*"]
     },
     "incremental": true,
     "plugins": [
