@@ -1,10 +1,11 @@
-import { db } from "../../../db/index";
-import { stripe } from "../../../lib/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Resend } from "resend";
-import OrderReceivedEmail from "../../../components/emails/OrderReceivedEmail";
+
+import { db } from "@/db/index";
+import { stripe } from "@/lib/stripe";
+import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
