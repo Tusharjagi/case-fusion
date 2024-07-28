@@ -20,6 +20,10 @@
         "ecmaVersion": 8,
         "sourceType": "module"
       }
+    },
+    {
+      "files": ["*.html"],
+      "parser": "@html-eslint/parser"
     }
   ],
   "settings": {
