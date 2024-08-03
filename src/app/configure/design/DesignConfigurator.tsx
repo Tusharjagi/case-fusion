@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { RadioGroup, Label as HeadLessLabel, Description, Radio } from "@headlessui/react";
 import { ArrowRight, Check, ChevronsUpDown } from "lucide-react";
-import { Rnd, RndDragCallback, RndResizeCallback } from "react-rnd";
+import { Rnd } from "react-rnd";
 import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
@@ -130,39 +130,11 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
     return new Blob([byteArray], { type: mimeType });
   }
 
-  const handleOptionChange = <T extends keyof typeof options>(key: T, value: (typeof options)[T]) => {
-    setOptions((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
-
-  const handleResizeStop: RndResizeCallback = (_, __, ref, ___, position) => {
-    setRenderedDimension({
-      height: parseInt(ref.style.height.slice(0, -2), 10),
-      width: parseInt(ref.style.width.slice(0, -2), 10),
-    });
-
-    setRenderedPosition({ x: position.x, y: position.y });
-  };
-
-  const handleDragStop: RndDragCallback = (_, data) => {
-    const { x, y } = data;
-    setRenderedPosition({ x, y });
-  };
-
-  const handleModelSelect = (model: (typeof MODELS.options)[number]) => {
-    setOptions((prev) => ({
-      ...prev,
-      model,
-    }));
-  };
-
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
       <div
         ref={containerRef}
-        className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-purple-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+        className="relative h-[37.5rem] overflow-hidden col-span-2 w-full max-w-4xl flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-12 text-center focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2"
       >
         <div className="relative w-60 bg-opacity-50 pointer-events-none aspect-[896/1831]">
           <AspectRatio
@@ -193,9 +165,19 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
             height: imageDimensions.height / 4,
             width: imageDimensions.width / 4,
           }}
-          onResizeStop={handleResizeStop}
-          onDragStop={handleDragStop}
-          className="absolute z-20 border-[3px] border-purple-500"
+          onResizeStop={(_, __, ref, ___, { x, y }) => {
+            setRenderedDimension({
+              height: parseInt(ref.style.height.slice(0, -2)),
+              width: parseInt(ref.style.width.slice(0, -2)),
+            });
+
+            setRenderedPosition({ x, y });
+          }}
+          onDragStop={(_, data) => {
+            const { x, y } = data;
+            setRenderedPosition({ x, y });
+          }}
+          className="absolute z-20 border-[3px] border-purple-600"
           lockAspectRatio={true}
           resizeHandleComponent={{
             bottomRight: <HandleComponent />,
@@ -210,7 +192,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
         </Rnd>
       </div>
 
-      <div className="h-[40rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
+      <div className="h-[37.5rem] w-full col-span-full lg:col-span-1 flex flex-col bg-white">
         <ScrollArea className="relative flex-1 overflow-auto">
           <div
             aria-hidden="true"
@@ -218,13 +200,21 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
           />
 
           <div className="px-8 pb-12 pt-8">
-            <h2 className="tracking-tight font-bold text-3xl text-purple-600">Customize your case</h2>
+            <h2 className="tracking-tight font-bold text-3xl">Customize your case</h2>
 
             <div className="w-full h-px bg-zinc-200 my-6" />
 
             <div className="relative mt-4 h-full flex flex-col justify-between">
               <div className="flex flex-col gap-6">
-                <RadioGroup value={options.color} onChange={(val) => handleOptionChange("color", val)}>
+                <RadioGroup
+                  value={options.color}
+                  onChange={(val) => {
+                    setOptions((prev) => ({
+                      ...prev,
+                      color: val,
+                    }));
+                  }}
+                >
                   <Label>Color: {options.color.label}</Label>
                   <div className="mt-3 flex items-center space-x-3">
                     {COLORS.map((color) => (
@@ -255,7 +245,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                       <Button
                         variant="outline"
                         role="combobox"
-                        className="w-full justify-between border-purple-500 text-purple-600"
+                        className="w-full justify-between border-purple-600 text-purple-600"
                       >
                         {options.model.label}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -265,10 +255,12 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                       {MODELS.options.map((model) => (
                         <DropdownMenuItem
                           key={model.label}
-                          className={cn("flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-purple-100", {
-                            "bg-purple-100": model.label === options.model.label,
+                          className={cn("flex text-sm gap-1 items-center p-1.5 cursor-default hover:bg-zinc-100", {
+                            "bg-zinc-100": model.label === options.model.label,
                           })}
-                          onClick={() => handleModelSelect(model)}
+                          onClick={() => {
+                            setOptions((prev) => ({ ...prev, model }));
+                          }}
                         >
                           <Check
                             className={cn(
@@ -294,7 +286,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                       }));
                     }}
                   >
-                    <Label>{name.charAt(0).toUpperCase() + name.slice(1)}</Label>
+                    <Label>{name.slice(0, 1).toUpperCase() + name.slice(1)}</Label>
                     <div className="mt-3 space-y-4">
                       {selectableOptions.map((option) => (
                         <Radio
@@ -304,7 +296,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                             cn(
                               "relative block cursor-pointer rounded-lg bg-white px-6 py-4 shadow-sm border-2 border-zinc-200 focus:outline-none ring-0 focus:ring-0 outline-none sm:flex sm:justify-between",
                               {
-                                "border-purple-500": focus || checked,
+                                "border-purple-600": focus || checked,
                               },
                             )
                           }
@@ -343,7 +335,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
           <div className="h-px w-full bg-zinc-200" />
           <div className="w-full h-full flex justify-end items-center">
             <div className="w-full flex gap-6 items-center">
-              <p className="font-medium whitespace-nowrap text-purple-600">
+              <p className="font-medium whitespace-nowrap">
                 {formatPrice((BASE_PRICE + options.finish.price + options.material.price) / 100)}
               </p>
               <Button
@@ -360,7 +352,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }: DesignConfi
                   })
                 }
                 size="sm"
-                className="w-full bg-purple-600 text-white hover:bg-purple-700"
+                className="w-full border-purple-600 text-white"
               >
                 Continue
                 <ArrowRight className="h-4 w-4 ml-1.5 inline" />
