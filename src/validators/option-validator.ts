@@ -4,8 +4,6 @@ export const COLORS = [
   { label: "Black", value: "black", tw: "zinc-900" },
   { label: "Blue", value: "blue", tw: "blue-950" },
   { label: "Rose", value: "rose", tw: "rose-950" },
-  { label: "Red", value: "red", tw: "red-600" },
-  { label: "Purple", value: "purple", tw: "purple-600" },
 ] as const;
 
 export const MODELS = {
