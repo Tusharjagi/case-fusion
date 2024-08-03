@@ -9,17 +9,17 @@ export function cn(...inputs: ClassValue[]) {
 export const formatPrice = (price: number) => {
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
   });
 
   return formatter.format(price);
 };
 
 export function constructMetadata({
-  title = "CaseCobra - custom high-quality phone cases",
+  title = "Case Fusion - custom high-quality phone cases",
   description = "Create custom high-quality phone cases in seconds",
   image = "/thumbnail.png",
-  icons = "/favicon.ico",
+  icons = "/logic.jpeg",
 }: {
   title?: string;
   description?: string;
@@ -39,9 +39,9 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: "@joshtriedcoding",
+      creator: "@tusharjagi",
     },
     icons,
-    metadataBase: new URL("https://casecobra.vercel.app/"),
+    metadataBase: new URL("https://case-fusion.vercel.app/"),
   };
 }
