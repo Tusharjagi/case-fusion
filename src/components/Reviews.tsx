@@ -1,6 +1,6 @@
 "use client";
 
-import { HTMLAttributes, useEffect, useRef, useState } from "react";
+import React, { HTMLAttributes, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useInView } from "framer-motion";
 
@@ -9,13 +9,33 @@ import Phone from "@/components/Phone";
 import { cn } from "@/lib/utils";
 
 const PHONES = [
-  "/testimonials/1.jpg",
-  "/testimonials/2.jpg",
-  "/testimonials/3.jpg",
-  "/testimonials/4.jpg",
-  "/testimonials/5.jpg",
-  "/testimonials/6.jpg",
+  "/reviews/playground-image.jpg",
+  "/reviews/moonlit-winter.png",
+  "/reviews/idea-by-sad.png",
+  "/reviews/a-monkey-laughing.jpeg",
+  "/reviews/cosmic-circus.png",
+  "/reviews/beautiful-morphic.jpeg",
 ];
+
+type ReviewProps = HTMLAttributes<HTMLDivElement> & {
+  imgSrc: string;
+};
+
+function Review({ imgSrc, className, ...props }: Readonly<ReviewProps>) {
+  const POSSIBLE_ANIMATION_DELAYS = ["0s", "0.1s", "0.2s", "0.3s", "0.4s", "0.5s"];
+
+  const animationDelay = POSSIBLE_ANIMATION_DELAYS[Math.floor(Math.random() * POSSIBLE_ANIMATION_DELAYS.length)];
+
+  return (
+    <div
+      className={cn("animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5", className)}
+      style={{ animationDelay }}
+      {...props}
+    >
+      <Phone imgSrc={imgSrc} />
+    </div>
+  );
+}
 
 function splitArray<T>(array: Array<T>, numParts: number) {
   const result: Array<Array<T>> = [];
@@ -39,6 +59,7 @@ function ReviewColumn({
 }: Readonly<{
   reviews: string[];
   className?: string;
+  // eslint-disable-next-line no-unused-vars
   reviewClassName?: (reviewIndex: number) => string;
   msPerPixel?: number;
 }>) {
@@ -66,29 +87,10 @@ function ReviewColumn({
       className={cn("animate-marquee space-y-8 py-4", className)}
       style={{ "--marquee-duration": duration } as React.CSSProperties}
     >
-      {reviews.concat(reviews).map((imgSrc, reviewIndex) => (
-        <Review key={reviewIndex} className={reviewClassName?.(reviewIndex % reviews.length)} imgSrc={imgSrc} />
-      ))}
-    </div>
-  );
-}
-
-interface ReviewProps extends HTMLAttributes<HTMLDivElement> {
-  imgSrc: string;
-}
-
-function Review({ imgSrc, className, ...props }: Readonly<ReviewProps>) {
-  const POSSIBLE_ANIMATION_DELAYS = ["0s", "0.1s", "0.2s", "0.3s", "0.4s", "0.5s"];
-
-  const animationDelay = POSSIBLE_ANIMATION_DELAYS[Math.floor(Math.random() * POSSIBLE_ANIMATION_DELAYS.length)];
-
-  return (
-    <div
-      className={cn("animate-fade-in rounded-[2.25rem] bg-white p-6 opacity-0 shadow-xl shadow-slate-900/5", className)}
-      style={{ animationDelay }}
-      {...props}
-    >
-      <Phone imgSrc={imgSrc} />
+      {reviews.concat(reviews).map((imgSrc, reviewIndex) => {
+        const keyIndex = reviewIndex;
+        return <Review key={keyIndex} className={reviewClassName?.(reviewIndex % reviews.length)} imgSrc={imgSrc} />;
+      })}
     </div>
   );
 }
@@ -104,7 +106,7 @@ function ReviewGrid() {
   return (
     <div
       ref={containerRef}
-      className="relative -mx-4 mt-16 grid h-[49rem] max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden px-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
+      className="relative mt-16 grid h-[49rem] max-h-[150vh] grid-cols-1 items-start gap-8 overflow-hidden mx-4 sm:mt-20 md:grid-cols-2 lg:grid-cols-3"
     >
       {isInView ? (
         <>
