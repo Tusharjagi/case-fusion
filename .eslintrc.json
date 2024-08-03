@@ -131,18 +131,6 @@
     "import/first": "error",
     "no-shadow": "error",
     "no-case-declarations": "error",
-    "require-jsdoc": [
-      "error",
-      {
-        "require": {
-          "FunctionDeclaration": true,
-          "MethodDefinition": true,
-          "ClassDeclaration": true,
-          "ArrowFunctionExpression": true,
-          "FunctionExpression": true
-        }
-      }
-    ],
     "prettier/prettier": "error",
     "@html-eslint/require-title": "error",
     "@html-eslint/require-meta-description": "error",
