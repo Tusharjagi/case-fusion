@@ -1,5 +1,4 @@
 import type { Dispatch, SetStateAction } from "react";
-import Image from "next/image";
 import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
@@ -10,8 +9,8 @@ const LoginModal = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: Dispatc
     <Dialog onOpenChange={setIsOpen} open={isOpen}>
       <DialogContent className="absolute z-[9999999]">
         <DialogHeader>
-          <div className="relative mx-auto w-24 h-24 mb-2">
-            <Image src="/snake-1.png" alt="snake image" className="object-contain" fill />
+          <div className="flex z-40 font-semibold text-purple-900 justify-center items-center">
+            case<span className="text-purple-400">fusion</span>
           </div>
           <DialogTitle className="text-3xl text-center font-bold tracking-tight text-gray-900">
             Log in to continue
@@ -22,9 +21,13 @@ const LoginModal = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: Dispatc
           </DialogDescription>
         </DialogHeader>
 
-        <div className="grid grid-cols-2 gap-6 divide-x divide-gray-200">
-          <LoginLink className={buttonVariants({ variant: "outline" })}>Login</LoginLink>
-          <RegisterLink className={buttonVariants({ variant: "default" })}>Sign up</RegisterLink>
+        <div className="grid grid-cols-2 gap-6 divide-x divide-purple-200">
+          <LoginLink className={buttonVariants({ variant: "outline", className: "text-purple-700 border-purple-700" })}>
+            Login
+          </LoginLink>
+          <RegisterLink className={buttonVariants({ variant: "default", className: "bg-purple-700 text-white" })}>
+            Sign up
+          </RegisterLink>
         </div>
       </DialogContent>
     </Dialog>

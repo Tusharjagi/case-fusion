@@ -76,15 +76,6 @@
         "rule": "^(is|has)[A-Z]([A-Za-z]?)+"
       }
     ],
-    "react/jsx-handler-names": [
-      "error",
-      {
-        "eventHandlerPrefix": "handle",
-        "eventHandlerPropPrefix": "on",
-        "checkLocalVariables": true,
-        "checkInlineFunction": true
-      }
-    ],
     "no-use-before-define": [
       "error",
       {
